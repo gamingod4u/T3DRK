@@ -29,31 +29,54 @@ public class InputController : MonoBehaviour
 			break;
 		case InputType.keyboard:
 		{
-			if(Input.GetKeyDown(KeyCode.RightArrow))
+			KeyboardSteering();
+			if(Input.GetKey(KeyCode.DownArrow))
 			{
-				if(carMotor.steeringWheel < 1f)		
-					carMotor.steeringWheel += .05f;
-			}
-			else if(Input.GetKeyDown(KeyCode.LeftArrow))
-			{
-				if(carMotor.steeringWheel > -1f)
-					carMotor.steeringWheel -= .05f;
-			}
-			else
-			{
-				if(carMotor.steeringWheel > 0.5f)
-					carMotor.steeringWheel -= .15f;
-				else if(carMotor.steeringWheel < 0.5f)
-					carMotor.steeringWheel += .15f;
+				if(carMotor.brakePedal < 1)
+					carMotor.brakePedal +=.15f;
 				else 
-					carMotor.steeringWheel = 0f;
+					carMotor.brakePedal = 1;
+			}
+			else 
+			{
+				if(carMotor.brakePedal > 0)
+				{
+					carMotor.brakePedal -= .15f;			
+				}
+				else
+				{
+					carMotor.brakePedal = 0;
+				}
 			}
 		}
 			break;
 		}		
 	}
 
-
+	private void KeyboardSteering()
+	{
+	
+		if(Input.GetKey(KeyCode.RightArrow))
+		{
+			if(carMotor.steeringWheel < 1f)		
+				carMotor.steeringWheel += .05f;
+		}
+		else if(Input.GetKey(KeyCode.LeftArrow))
+		{
+			if(carMotor.steeringWheel > -1f)
+				carMotor.steeringWheel -= .05f;
+		}
+		else
+		{
+			if(carMotor.steeringWheel > 0.5f)
+				carMotor.steeringWheel -= .15f;
+			else if(carMotor.steeringWheel < -0.5f)
+				carMotor.steeringWheel += .15f;
+			else 
+				carMotor.steeringWheel = 0f;
+		}
+		
+	}
 	private void SwitchMobileSteering()
 	{
 		switch(steering)

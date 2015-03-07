@@ -22,7 +22,7 @@ public class Car_Motor : MonoBehaviour
 	public float steeringSensitivy = 0;
 	public float currentSpeed = 0;
 	
-	
+	private float downForce = 0;
 	
 	#region Getter/Setters
 	public bool Ground
@@ -101,6 +101,7 @@ public class Car_Motor : MonoBehaviour
 	void Start()
 	{
 		car_Rigid = gameObject.GetComponent<Rigidbody>();
+		car_Rigid.centerOfMass = new Vector3(0, 0 ,1f);
 	}
 	
 	
@@ -116,17 +117,18 @@ public class Car_Motor : MonoBehaviour
 	private void ClipRotation()
 	{
 		if(!isGrounded)
-		{
-			if(car.transform.rotation.x > 15f)
-			 	car.transform.Rotate(-Time.deltaTime,0,0);
-			else if(car.transform.rotation.x < -15f)
-				car.transform.Rotate(Time.deltaTime,0,0);
+		{	
+			if(currentSpeed > 0)
+			currentSpeed -= acceleration * (Time.deltaTime * Time.deltaTime);
 			else
-				car.transform.rotation = new Quaternion(0, car.transform.rotation.y, car.transform.rotation.z, car.transform.rotation.w);
-				
-				
-				car.transform.Translate(Vector3.down * car_Rigid.mass  *Time.deltaTime);
+				currentSpeed = 0;
 			
+			car.Translate( Vector3.down * car_Rigid.mass * (Time.deltaTime * Time.deltaTime));
+			car.transform.eulerAngles = new Vector3(car.transform.eulerAngles.x, car.transform.eulerAngles.y, 0);
+		}
+		else 
+		{
+			downForce = 0;
 		}
 	}
 
@@ -136,26 +138,24 @@ public class Car_Motor : MonoBehaviour
 		if(brakePedal > 0f)
 		{
 			if(gasPedal > -1f)
-				gasPedal -= .2f;
+				gasPedal -= .1f;
 			else
-				gasPedal = -2f;
+				gasPedal = -1f;
 		}
 		else
 		{
 			if(gasPedal < 1f)
-				gasPedal += .015f;
+				gasPedal += .15f;
 			else
-			{
 				gasPedal = 1f;
-			}
-			
-			if(currentSpeed < maxSpeed)
-				currentSpeed += (gasPedal * acceleration) * Time.deltaTime;
-			else
-			{
-				if(!isBoosting)
-					currentSpeed -= (gasPedal * acceleration) * Time.deltaTime;
-			}
+		}
+		
+		if(currentSpeed < maxSpeed && isGrounded)
+			currentSpeed += (gasPedal * acceleration) * Time.deltaTime;
+		else
+		{
+			if(!isBoosting)
+				currentSpeed -= (acceleration) * Time.deltaTime;
 		}
 	}
 	
@@ -170,8 +170,9 @@ public class Car_Motor : MonoBehaviour
 	private void SteerCar()
 	{
 		if(currentSpeed != 0)
-			car.Rotate(0,steeringWheel * (currentSpeed*steeringSensitivy) * Time.deltaTime,0);
-
+		{
+			car.Rotate(0,steeringWheel * (steeringSensitivy),0);
+		}
 
 		if(steeringWheel >  .7f)  // if we are driftable right
 		{

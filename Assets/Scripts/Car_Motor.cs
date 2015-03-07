@@ -107,12 +107,9 @@ public class Car_Motor : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		GetSteering();
 		GetMotor();
 		MoveCar();
 		SteerCar();
-		
-		CheckGrounded();
 		ClipRotation();
 	}
 	
@@ -132,34 +129,7 @@ public class Car_Motor : MonoBehaviour
 			
 		}
 	}
-	private void CheckGrounded()
-	{
-		
-	}
-	private void GetSteering()
-	{
-		
-		if(Input.acceleration.x > 0.05f)
-		{
-			if(steeringWheel < 1f)		
-				steeringWheel += .05f;
-		}
-		else if(Input.acceleration.x < -0.05f)
-		{
-			if(steeringWheel > -1f)
-				steeringWheel -= .05f;
-		}
-		else
-		{
-			if(steeringWheel > 0.5f)
-				steeringWheel -= .15f;
-			else if(steeringWheel < 0.5f)
-				steeringWheel += .15f;
-			else 
-				steeringWheel = 0f;
-		}
-		
-	}
+
 	
 	private void GetMotor()
 	{
@@ -199,8 +169,33 @@ public class Car_Motor : MonoBehaviour
 	
 	private void SteerCar()
 	{
-		car.Rotate(0,steeringWheel * (currentSpeed*steeringSensitivy),0);
-		
+		if(currentSpeed != 0)
+			car.Rotate(0,steeringWheel * (currentSpeed*steeringSensitivy) * Time.deltaTime,0);
+
+
+		if(steeringWheel >  .7f)  // if we are driftable right
+		{
+
+		}
+		else if(steeringWheel < - .7f) // if we are driftable left
+		{
+
+		}
+		else // if we are not trying to drift lets see if car is 
+		{
+			if(car_body.rotation.y > .1f) // if car is drifting right 
+			{
+
+			}
+			else if(car_body.rotation.y < -.1f) // if car is drifting left 
+			{
+
+			}
+			else // make sure the car is straigth
+			{
+
+			}
+		}
 			 
 	}
 	

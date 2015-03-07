@@ -3,11 +3,34 @@ guid: 9a6ec96538a62450e8d08f0237052ad2
 ModelImporter:
   serializedVersion: 18
   fileIDToRecycleName:
+    100000: //RootNode
+    100002: BUGGCARR
+    100004: Object01
+    100006: Object02
+    100008: Object03
+    100010: Object04
+    400000: //RootNode
+    400002: BUGGCARR
+    400004: Object01
+    400006: Object02
+    400008: Object03
+    400010: Object04
+    2300000: BUGGCARR
+    2300002: Object01
+    2300004: Object02
+    2300006: Object03
+    2300008: Object04
+    3300000: BUGGCARR
+    3300002: Object01
+    3300004: Object02
+    3300006: Object03
+    3300008: Object04
     4300000: BUGGCARR
     4300002: Object02
     4300004: Object01
     4300006: Object03
     4300008: Object04
+    11100000: //RootNode
   materials:
     importMaterials: 1
     materialName: 3

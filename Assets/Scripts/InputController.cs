@@ -5,19 +5,22 @@ public class InputController : MonoBehaviour
 {
 	public enum InputType{mobile, keyboard};
 	public enum SteeringType{keyboard, tilt, touch};
-	public Car_Motor carMotor;
+	public enum AccelerationType{touch, automatic};
 
 	public InputType input;
 	public SteeringType steering;
-
+	
+	private Car_Motor carMotor;
+	
 	private bool onPaused = false;
-
+	private bool isBraking = false;
+	private bool isAccelerating = false;
 
 	void Start()
 	{
 		carMotor = GameObject.FindGameObjectWithTag("Player").GetComponent<Car_Motor>();
 	}
-
+	
 	void Update()
 	{
 		switch(input)
@@ -30,27 +33,29 @@ public class InputController : MonoBehaviour
 		case InputType.keyboard:
 		{
 			KeyboardSteering();
-			if(Input.GetKey(KeyCode.DownArrow))
-			{
-				if(carMotor.brakePedal < 1)
-					carMotor.brakePedal +=.15f;
-				else 
-					carMotor.brakePedal = 1;
-			}
-			else 
-			{
-				if(carMotor.brakePedal > 0)
-				{
-					carMotor.brakePedal -= .15f;			
-				}
-				else
-				{
-					carMotor.brakePedal = 0;
-				}
-			}
+			IsBraking();
 		}
 			break;
 		}		
+	}
+
+
+	private void IsBraking()
+	{
+		if(isBraking)
+		{
+			if(carMotor.brakePedal < 1)
+				carMotor.brakePedal +=.15f;
+			else 
+				carMotor.brakePedal = 1;
+		}
+		else
+		{
+			if(carMotor.brakePedal > 0)
+				carMotor.brakePedal -= .25f;			
+			else
+				carMotor.brakePedal = 0;
+		}
 	}
 
 	private void KeyboardSteering()
@@ -75,8 +80,16 @@ public class InputController : MonoBehaviour
 			else 
 				carMotor.steeringWheel = 0f;
 		}
-		
+		if(Input.GetKey(KeyCode.DownArrow))
+		{
+			isBraking = true;
+		}
+		else 
+		{
+			isBraking = false;
+		}
 	}
+	
 	private void SwitchMobileSteering()
 	{
 		switch(steering)
@@ -113,6 +126,32 @@ public class InputController : MonoBehaviour
 	}
 
 
+	public void OnBoost()
+	{
+		if(!carMotor.Boost)
+			carMotor.Boost = true;
+	}
+	
+	public void OnGasPedal()
+	{
+		isAccelerating = true;
+	}
+	
+	public void OnGasPedalOff()
+	{
+		isAccelerating = false;
+	}
+	
+	public void OnBrake()
+	{
+	  isBraking = true;
+	}
+	
+	public void OnBrakeOff()
+	{
+		isBraking = false;
+	}
+	
 	public void OnPause()
 	{
 		if(!onPaused)
@@ -122,7 +161,7 @@ public class InputController : MonoBehaviour
 		}
 		else
 		{
-			Time.timeScale = 1;
+			Time.timeScale = 1f;
 			onPaused = false;
 		}
 	}

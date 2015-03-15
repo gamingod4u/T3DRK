@@ -14,12 +14,12 @@ public class LevelingInputController : MonoBehaviour
 	public Text steeringText;
 	public LevelController levelController;
 	
-	private int motorLevel;
-	private int accelLevel;
-	private int batteryLevel;
-	private int wearLevel;
-	private int boostLevel;
-	private int steeringLevel;
+	private int motorLevel = 1;
+	private int accelLevel= 1;
+	private int batteryLevel= 1;
+	private int wearLevel= 1;
+	private int boostLevel= 1;
+	private int steeringLevel= 1;
 	#endregion
 	#region Button Functions
 	public void MotorUp()
@@ -83,7 +83,18 @@ public class LevelingInputController : MonoBehaviour
 		SteeringLevels();
 	}
 	#endregion
+	
+	
 	#region Unity Functions
+	void Start()
+	{
+		Motor();
+		Acceleration();
+		BatterLevels();
+		ConsumptionLevels();
+		BoostLevels();
+		SteeringLevels();
+	}
 	void Update()
 	{
 		
@@ -97,8 +108,8 @@ public class LevelingInputController : MonoBehaviour
 		{
 			case 1: motorText.text = "Lvl 1 25 MPH";break;
 			case 2: motorText.text = "Lvl 2 30 MPH";break;
-			case 3: motorText.text = "Lvl 3 40 MPH";break;
-			case 4: motorText.text = "Lvl 4 45 MPH";break;
+			case 3: motorText.text = "Lvl 3 35 MPH";break;
+			case 4: motorText.text = "Lvl 4 40 MPH";break;
 			case 5: motorText.text = "Lvl 5 50 MPH";break;
 		}
 		levelController.Motor = motorLevel;
@@ -136,11 +147,11 @@ public class LevelingInputController : MonoBehaviour
 		wearLevel = Mathf.Clamp(wearLevel,1,5);
 		switch(wearLevel)
 		{
-			case 1: wearText.text = "Lvl 1 50% Max";break;
-			case 2: wearText.text = "Lvl 2 60% Max";break;
-			case 3: wearText.text = "Lvl 3 70% Max";break;
-			case 4: wearText.text = "Lvl 4 80% Max";break;
-			case 5: wearText.text = "Lvl 5 100% Max";break;
+			case 1: wearText.text = "Lvl 1 -8/3Secs";break;
+			case 2: wearText.text = "Lvl 2 -6/3Secs";break;
+			case 3: wearText.text = "Lvl 3 -4/3Secs";break;
+			case 4: wearText.text = "Lvl 4 -2/3Secs";break;
+			case 5: wearText.text = "Lvl 5 -1/3Secs";break;
 		}
 		levelController.ConsumptionLevel = wearLevel;
 	}
@@ -149,11 +160,11 @@ public class LevelingInputController : MonoBehaviour
 		boostLevel = Mathf.Clamp(boostLevel,1,5);
 		switch(boostLevel)
 		{
-		case 1: boostText.text = "Lvl 1 50hp 1Sec";break;
-		case 2: boostText.text = "Lvl 2 60hp 2Sec";break;
-		case 3: boostText.text = "Lvl 3 70hp 3Sec";break;
-		case 4: boostText.text = "Lvl 4 80hp 4Sec";break;
-		case 5: boostText.text = "Lvl 5 100hp 5Sec";break;
+		case 1: boostText.text = "Lvl 1 10hp 3Secs";break;
+		case 2: boostText.text = "Lvl 2 20hp 3Secs";break;
+		case 3: boostText.text = "Lvl 3 30hp 3Secs";break;
+		case 4: boostText.text = "Lvl 4 40hp 3Secs";break;
+		case 5: boostText.text = "Lvl 5 50hp 3Secs";break;
 		}
 		levelController.Boost = boostLevel;
 	}

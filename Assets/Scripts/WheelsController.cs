@@ -38,7 +38,7 @@ public class WheelsController : MonoBehaviour
 				
 			}
 			
-			if(hitCount < 3)
+			if(hitCount < 4)
 				carMotor.Ground = false;
 			else if(hitCount >= 3)
 				carMotor.Ground = true;

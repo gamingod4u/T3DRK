@@ -48,6 +48,7 @@
   <ItemGroup>
      <Compile Include="Assets\AddIns\SimplePhysics\CarMotor.cs" />
      <Compile Include="Assets\Scripts\Car_Motor.cs" />
+     <Compile Include="Assets\Scripts\EditorTest.cs" />
      <Compile Include="Assets\Scripts\InputController.cs" />
      <Compile Include="Assets\Scripts\LevelController.cs" />
      <Compile Include="Assets\Scripts\LevelingInputController.cs" />
